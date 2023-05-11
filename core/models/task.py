@@ -1,6 +1,6 @@
 from django.db import models
 
-from todo.models import User
+from core.models import User
 
 class Task(models.Model):
     title = models.CharField(max_length=500, null=False)
