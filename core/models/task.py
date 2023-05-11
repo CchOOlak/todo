@@ -14,9 +14,15 @@ class Task(models.Model):
         (3, "done"),
     )
     status = models.IntegerField(choices=status_enum, default=1)
-    priority = models.IntegerField
-    keywords = models.TextField(default="", blank=True)
+    
+    priority_enum = (
+        (0, "low"),
+        (1, "high"),
+        (2, "critical"),
+    )
+    priority = models.IntegerField(choices=priority_enum, default=0)
 
+    keywords = models.TextField(default="", blank=True)
     created_at = models.DateField(auto_now_add=True)
 
 

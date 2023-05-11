@@ -1,12 +1,12 @@
 from django.urls import path, include
 from rest_framework import routers
 
-from core.views import TaskViewSet, search
+from core.views import TaskViewSet
 
 router = routers.DefaultRouter()
 router.register(r'tasks', TaskViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('search/<slug:str>/', search),
+    # path('search/<slug:str>/', search),
 ]

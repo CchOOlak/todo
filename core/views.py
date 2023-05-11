@@ -15,7 +15,7 @@ class TaskViewSet(viewsets.GenericViewSet,
                   mixins.UpdateModelMixin):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
-    filter_backends = (DjangoFilterBackend, TaskOrderingFilter)
+    filter_backends = (TaskOrderingFilter,)
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
