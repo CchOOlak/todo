@@ -14,6 +14,8 @@ class Task(models.Model):
         (3, "done"),
     )
     status = models.IntegerField(choices=status_enum, default=1)
+    def get_status(self):
+        return self.status_enum[self.status][1]
     
     priority_enum = (
         (0, "low"),
@@ -21,11 +23,8 @@ class Task(models.Model):
         (2, "critical"),
     )
     priority = models.IntegerField(choices=priority_enum, default=0)
+    def get_priority(self):
+        return self.priority_enum[self.priority][1]
 
     keywords = models.TextField(default="", blank=True)
     created_at = models.DateField(auto_now_add=True)
-
-
-class TaskUser(models.Model):
-    task = models.ForeignKey(Task, related_name="assigned_users", on_delete=models.CASCADE)
-    user = models.ForeignKey(User, related_name="assigned_tasks", on_delete=models.CASCADE)

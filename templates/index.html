@@ -3,13 +3,16 @@
 {% block body %}
   {% if user.is_authenticated %}
   <div class="container">
-    <h2>Hello, {{ user.username }} !</h2>
-    <a class="btn btn-warning" href="{% url 'logout' %}">Logout</a>
+    <h2 class="text-center">Hello, {{ user.username }} !</h2>
+    <a class="btn btn-warning" href="{% url 'logout' %}" style="width: 100%;">Logout</a>
   </div>
   {% else %}
   <div class="container">
-    <a class="btn btn-primary" href="{% url 'register_page' %}">Register</a>
-    <a class="btn btn btn-secondary" href="{% url 'login' %}">Login</a>
+    <a class="btn btn-warning" href="{% url 'login' %}" style="width: 100%;">Login</a>
+  </div>
+  <div class="container">
+    <a class="btn btn-primary" href="{% url 'register_page' %}" style="width: 100%;">Register</a>
   </div>
   {% endif %}
+  {% include 'tasks.html' %}
 {% endblock %}
