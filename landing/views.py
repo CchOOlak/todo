@@ -11,6 +11,13 @@ def index(request):
         tasks = []
     return render(request, 'index.html', context={"tasks": tasks})
 
-def register(request):
+def register_view(request):
     serializer = UserRegisterSerializer()
     return render(request, 'register.html', context={'form': serializer})
+
+def task_view(request, pk):
+    try:
+        task = Task.objects.get(pk=pk)
+        return render(request, 'task.html', context={'task': task})
+    except:
+        return index(request)

@@ -1,18 +1,51 @@
-{% extends 'base.html' %}
-
+{% extends "base.html" %}
 {% block body %}
   {% if user.is_authenticated %}
-  <div class="container">
-    <h2 class="text-center">Hello, {{ user.username }} !</h2>
-    <a class="btn btn-warning" href="{% url 'logout' %}" style="width: 100%;">Logout</a>
-  </div>
+    <div class="container">
+      <h2 class="text-center">Hello, {{ user.username }} !</h2>
+      <a class="btn btn-warning full-btn"
+         href="{% url 'logout' %}">Logout</a>
+    </div>
   {% else %}
-  <div class="container">
-    <a class="btn btn-warning" href="{% url 'login' %}" style="width: 100%;">Login</a>
-  </div>
-  <div class="container">
-    <a class="btn btn-primary" href="{% url 'register_page' %}" style="width: 100%;">Register</a>
-  </div>
+    <div class="container">
+      <a class="btn btn-warning full-btn" href="{% url 'login' %}">Login</a>
+    </div>
+    <div class="container">
+      <a class="btn btn-primary full-btn"
+         href="{% url 'register-view' %}">Register</a>
+    </div>
   {% endif %}
-  {% include 'tasks.html' %}
-{% endblock %}
+  <style>
+    .col {
+        border-right: 1px dashed #333;
+        border-left: 1px dashed #333;
+    }
+  </style>
+  <div class="container">
+    <h2>Tasks</h2>
+    <ul class="list-group">
+      <div class="container">
+        <li class="list-group-item list-group-item-secondary">
+          <div class="row">
+            <div class="col-lg-2">Title</div>
+            <div class="col-lg-4">Description</div>
+            <div class="col-lg-2">Priority</div>
+            <div class="col-lg-2">Status</div>
+          </div>
+        </li>
+        {% for task in tasks %}
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-lg-2">{{ task.title }}</div>
+              <div class="col-lg-4">{{ task.description }}</div>
+              <div class="col-lg-2">{{ task.get_priority }}</div>
+              <div class="col-lg-2 status_color_{{ task.status }}">{{ task.get_status }}</div>
+              <a class="col-lg-2 btn btn-warning edit-btn"
+                 href="{% url 'task-view' pk=task.id %}">edit</a>
+            </div>
+          </li>
+        {% endfor %}
+      </div>
+    </ul>
+  </div>
+{% endblock body %}
