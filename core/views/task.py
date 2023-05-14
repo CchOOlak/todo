@@ -1,6 +1,4 @@
-from django.shortcuts import render
-
-from rest_framework import mixins, viewsets
+from rest_framework import mixins, viewsets, permissions
 from django_filters.rest_framework import DjangoFilterBackend
 
 from core.models import Task
@@ -15,7 +13,9 @@ class TaskViewSet(viewsets.GenericViewSet,
                   mixins.UpdateModelMixin):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
-    filter_backends = (TaskOrderingFilter,)
+    permission_classes = [permissions.IsAuthenticated,]
+    filter_backends = (DjangoFilterBackend, TaskOrderingFilter,)
+    filter_fields = ('priority', 'status',)
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
