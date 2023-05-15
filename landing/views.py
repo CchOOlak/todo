@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 
 from core.models import Task
 from core.serializers import UserRegisterSerializer, TaskSerializer
+from core.views import task as task_views
 
 
 def index(request):
@@ -9,7 +10,20 @@ def index(request):
         tasks = Task.objects.filter(author=request.user)
     else:
         tasks = []
-    return render(request, 'index.html', context={"tasks": tasks})
+    tasks = task_views.TaskViewSet.as_view({'get':'list'})(request).data
+    
+    context = {
+        "status_enum": Task.status_enum,
+        "priority_enum": Task.priority_enum,
+
+        "date_descending": "-created_at",
+        "date_ascending": "created_at",
+        "priority_descending": "-priority",
+        "priority_ascending": "priority",
+
+        "tasks": tasks,
+    }
+    return render(request, 'index.html', context=context)
 
 def register_view(request):
     serializer = UserRegisterSerializer()

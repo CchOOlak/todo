@@ -15,11 +15,16 @@ class TaskViewSet(viewsets.GenericViewSet,
                   mixins.CreateModelMixin,
                   mixins.DestroyModelMixin,
                   mixins.UpdateModelMixin):
-    queryset = Task.objects.all()
     serializer_class = TaskSerializer
     permission_classes = [IsOwnerPermission,]
     filter_backends = (DjangoFilterBackend, TaskOrderingFilter,)
-    filter_fields = ('priority', 'status',)
+    filterset_fields = ('priority', 'status',)
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            return Task.objects.filter(author=self.request.user)
+        else:
+            return Task.objects.filter(pk=0)
 
     def create(self, request, *args, **kwargs):
         super(TaskViewSet, self).create(request, *args, **kwargs)

@@ -2,7 +2,7 @@ from rest_framework.filters import OrderingFilter
 
 
 class TaskOrderingFilter(OrderingFilter):
-    allowed_custom_filters = ['created_at', '-created_at', '-priority', 'priority', '-price', 'price']
+    allowed_custom_filters = ['created_at', '-created_at', '-priority', 'priority',]
 
     def get_ordering(self, request, queryset, view):
         param = request.query_params.get(self.ordering_param)
