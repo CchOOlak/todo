@@ -5,6 +5,7 @@ from core.models import Task, User
 from core.serializers import UserSerializer
 
 class TaskSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
     title = serializers.CharField(max_length=500)
     description = serializers.CharField()
     author = UserSerializer(read_only=True)

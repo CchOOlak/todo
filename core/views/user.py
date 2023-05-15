@@ -24,7 +24,6 @@ class UserRegisterView(TemplateView):
                 return redirect('index')
             except:
                 return render(request, 'register.html', {'error': 'duplicate error'})
-            print(serializer.errors)
         return render(request, 'register.html', {'form': serializer})
 
     def get(self, request):

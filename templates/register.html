@@ -2,6 +2,10 @@
 
 {% load rest_framework %}
 
+{% block header %}
+  <h1 class="text-center">Register</h1>
+{% endblock header %}
+
 {% block body %}
   <div class="container">
       <form action="{% url 'register' %}" role="form" method="post">

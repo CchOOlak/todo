@@ -1,3 +1,5 @@
+from django.shortcuts import redirect, render
+
 from rest_framework import mixins, viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -9,6 +11,7 @@ from core.permissions import IsOwnerPermission
 
 class TaskViewSet(viewsets.GenericViewSet,
                   mixins.ListModelMixin,
+                  mixins.RetrieveModelMixin,
                   mixins.CreateModelMixin,
                   mixins.DestroyModelMixin,
                   mixins.UpdateModelMixin):
@@ -18,14 +21,14 @@ class TaskViewSet(viewsets.GenericViewSet,
     filter_backends = (DjangoFilterBackend, TaskOrderingFilter,)
     filter_fields = ('priority', 'status',)
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+    def create(self, request, *args, **kwargs):
+        super(TaskViewSet, self).create(request, *args, **kwargs)
+        return redirect('index')
+    
+    def update(self, request, *args, **kwargs):
+        super(TaskViewSet, self).update(request, *args, **kwargs)
+        return redirect('index')
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+    def destroy(self, request, *args, **kwargs):
+        super(TaskViewSet, self).destroy(request, *args, **kwargs)
+        return redirect('index')

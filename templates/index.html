@@ -21,8 +21,12 @@
         border-left: 1px dashed #333;
     }
   </style>
+
   <div class="container">
     <h2>Tasks</h2>
+    <div class="container">
+      <a class="btn btn-success full-btn" href="{% url 'tasks-view-add' %}">add</a>
+    </div>
     <ul class="list-group">
       <div class="container">
         <li class="list-group-item list-group-item-secondary">
@@ -41,7 +45,7 @@
               <div class="col-lg-2">{{ task.get_priority }}</div>
               <div class="col-lg-2 status_color_{{ task.status }}">{{ task.get_status }}</div>
               <a class="col-lg-2 btn btn-warning edit-btn"
-                 href="{% url 'task-view' pk=task.id %}">edit</a>
+                 href="{% url 'tasks-view' pk=task.id %}">edit</a>
             </div>
           </li>
         {% endfor %}
