@@ -1,11 +1,10 @@
 from django.shortcuts import redirect, render
 
-from rest_framework import mixins, viewsets
+from rest_framework import mixins, viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend
 
 from core.models import Task
 from core.serializers import TaskSerializer
-from core.filters import TaskOrderingFilter
 from core.permissions import IsOwnerPermission
 
 
@@ -17,8 +16,12 @@ class TaskViewSet(viewsets.GenericViewSet,
                   mixins.UpdateModelMixin):
     serializer_class = TaskSerializer
     permission_classes = [IsOwnerPermission,]
-    filter_backends = (DjangoFilterBackend, TaskOrderingFilter,)
+
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
     filterset_fields = ('priority', 'status',)
+    search_fields = ['keywords']
+    ordering_fields = ['created_at', 'priority']
+    ordering = ['id']
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
